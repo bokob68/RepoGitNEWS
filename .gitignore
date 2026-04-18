@@ -4,3 +4,4 @@ logs/
 output/
 *.log
 .env
+*.pid

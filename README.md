@@ -30,18 +30,18 @@
 
 ## Как е настроено
 
-- източник на новини: `C:\OneDrive\VIN TV\YT_INFO\news.txt`
-- repo вход: `RepoGitNEWS\news.txt`
+- източник на новини: външен локален `news.txt`
+- repo вход: `news.txt`
 - главен изход: `review_latest.txt` в repo-то
-- първо огледално копие: `C:\OneDrive\VIN TV\NEWS\news1_test.txt`
-- второ огледално копие: `C:\OneDrive\VIN TV\YT_INFO\news_bg_test.txt`
+- първо огледално копие: външен локален `.txt` файл
+- второ огледално копие: външен локален `.txt` файл
 - автоматични часове: `07:00` и `17:30`
 
 ## Какво прави scheduler-ът
 
 При всеки планиран час:
 
-1. копира свежия `news.txt` от `C:\OneDrive\VIN TV\YT_INFO\news.txt` в repo-то;
+1. копира свежия `news.txt` от външния локален източник в repo-то;
 2. commit/push-ва `news.txt` в GitHub;
 3. Codex app automation взима repo-то и обновява `review_latest.txt`;
 4. локалният scheduler периодично прави pull;

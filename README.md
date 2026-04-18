@@ -1,6 +1,6 @@
 # RepoGitNEWS
 
-Това е подготвената папка за GitHub repo.
+Това е подготвената папка за GitHub repo и Codex app automation workflow без `OPENAI_API_KEY`.
 
 ## Какво има вътре
 
@@ -10,11 +10,11 @@
 - `review_latest.txt`
   Главният резултат, който ще се генерира.
 
-- `make_review.py`
-  Скриптът, който прави обзора.
+- `repo_sync.py`
+  Локален скрипт за sync на `news.txt` към repo-то и за sync на `review_latest.txt` обратно към локалните файлове.
 
-- `review_scheduler.py`
-  Скриптът, който го пуска по график.
+- `repo_sync_scheduler.py`
+  Локален scheduler за автоматичните часове и периодичния review pull.
 
 - `review_automation.ini`
   Настройките.
@@ -25,17 +25,38 @@
 - `news1.txt`
   Примерен изходен формат.
 
+- `CODEX_AUTOMATION_PROMPT.md`
+  Готовият текст, който трябва да сложиш в Codex app Automation.
+
 ## Как е настроено
 
-- вход: локалният `news.txt` в repo-то
+- източник на новини: `C:\OneDrive\VIN TV\YT_INFO\news.txt`
+- repo вход: `RepoGitNEWS\news.txt`
 - главен изход: `review_latest.txt` в repo-то
 - първо огледално копие: `C:\OneDrive\VIN TV\NEWS\news1_test.txt`
 - второ огледално копие: `C:\OneDrive\VIN TV\YT_INFO\news_bg_test.txt`
+- автоматични часове: `07:00` и `17:30`
 
-## Забележка
+## Какво прави scheduler-ът
 
-Ако искаш новият `news.txt` винаги да идва в repo-то, трябва или:
+При всеки планиран час:
 
-1. да го копираш там преди пускане, или
-2. watcher-ът да записва директно в repo папката, или
-3. да има малък helper скрипт, който копира файла в repo-то.
+1. копира свежия `news.txt` от `C:\OneDrive\VIN TV\YT_INFO\news.txt` в repo-то;
+2. commit/push-ва `news.txt` в GitHub;
+3. Codex app automation взима repo-то и обновява `review_latest.txt`;
+4. локалният scheduler периодично прави pull;
+5. копира `review_latest.txt` и в допълнителните файлове.
+
+## Ръчен тест
+
+Пускане на news sync тест:
+
+```bash
+python repo_sync_scheduler.py --config review_automation.ini --once-push
+```
+
+Пускане на review pull тест:
+
+```bash
+python repo_sync_scheduler.py --config review_automation.ini --once-pull
+```
